@@ -97,7 +97,7 @@ export const Campaigns: FC = () => {
                 {
                     campaigns ? campaigns.map((campaign, index) => {
                         return (
-                            <div id={`campaign${index}`} className='md:hero-content flex flex-col min-h-[18rem] w-[20rem] card bg-violet-700 shadow-xl'>
+                            <div key={index} id={`campaign${index}`} className='md:hero-content flex flex-col min-h-[18rem] w-[20rem] card bg-violet-700 shadow-xl'>
                                 <h1>{new TextDecoder().decode(new Uint8Array(campaign.name.filter(i => i))).toString()}</h1>
                                 <span>{(campaign.totalFunding / web3.LAMPORTS_PER_SOL).toString()} SOL out of {campaign.fundingGoal.toString()}</span>
                                 <button
