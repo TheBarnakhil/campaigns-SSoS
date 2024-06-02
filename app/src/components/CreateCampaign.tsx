@@ -1,6 +1,6 @@
 // TODO: SignMessage
 import { verify } from '@noble/ed25519';
-import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import { useWallet, useConnection, WalletContextState } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { notify } from "../utils/notifications";
@@ -26,9 +26,15 @@ export const CreateCampaign: FC = () => {
         amount: 0
     })
 
+    const getProvider = (connection: web3.Connection, ourWallet : WalletContextState) => {
+        const provider = new AnchorProvider(connection, ourWallet, AnchorProvider.defaultOptions())
+        setProvider(provider)
+        return provider
+    }
+
     const createCampaign = async (campaign) => {
         try {
-            const anchProvider = useProvider(connection, ourWallet)
+            const anchProvider = getProvider(connection, ourWallet)
             const program = new Program<CrowdfundingApp>(idl_object, anchProvider)
 
             await program.methods.initialize(campaign.name, campaign.description, new BN(campaign.amount)).accounts({
