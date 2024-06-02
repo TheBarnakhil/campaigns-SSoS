@@ -9,7 +9,7 @@ import { Program, AnchorProvider, web3, utils, BN, setProvider } from "@coral-xy
 import idl from "./crowdfunding_app.json"
 import { CrowdfundingApp } from "./crowdfunding_app"
 import { PublicKey } from '@solana/web3.js';
-import { useProvider } from 'hooks/useProvider';
+import { useProvider } from 'hooks/getProvider';
 
 const idl_string = JSON.stringify(idl)
 const idl_object = JSON.parse(idl_string)
@@ -22,7 +22,7 @@ export const Campaigns: FC = () => {
 
     const getCampaigns = async () => {
         try {
-            const anchProvider = useProvider(connection, ourWallet)
+            const anchProvider = getProvider(connection, ourWallet)
             const program = new Program<CrowdfundingApp>(idl_object, anchProvider)
             Promise.all((await connection.getParsedProgramAccounts(programID)).map(async campaigns => ({
                 ...(await program.account.campaign.fetch(campaigns.pubkey)),
@@ -40,7 +40,7 @@ export const Campaigns: FC = () => {
 
     const donate = async (publicKey) => {
         try {
-            const anchProvider = useProvider(connection, ourWallet)
+            const anchProvider = getProvider(connection, ourWallet)
             const program = new Program<CrowdfundingApp>(idl_object, anchProvider)
 
             await program.methods.donate(new BN(0.2 * web3.LAMPORTS_PER_SOL))
@@ -63,7 +63,7 @@ export const Campaigns: FC = () => {
 
     const withdraw = async (publicKey) => {
         try {
-            const anchProvider = useProvider(connection, ourWallet)
+            const anchProvider = getProvider(connection, ourWallet)
             const program = new Program<CrowdfundingApp>(idl_object, anchProvider)
 
             await program.methods.withdraw(new BN(0.2 * web3.LAMPORTS_PER_SOL))

@@ -9,7 +9,7 @@ import { Program, AnchorProvider, web3, utils, BN, setProvider } from "@coral-xy
 import idl from "./crowdfunding_app.json"
 import { CrowdfundingApp } from "./crowdfunding_app"
 import { PublicKey } from '@solana/web3.js';
-import { useProvider } from 'hooks/useProvider';
+import { useProvider } from 'hooks/getProvider';
 import { Campaigns } from './Campaigns';
 
 const idl_string = JSON.stringify(idl)
